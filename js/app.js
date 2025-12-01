@@ -24,45 +24,68 @@ const renderLayout = () => {
     const headerEl = document.getElementById('main-header');
     if (headerEl) {
         headerEl.innerHTML = `
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+        <!-- ÜST BİLGİ ÇUBUĞU (Top Bar) -->
+        <div class="bg-[#1e293b] text-white py-2 text-xs border-b border-gray-700">
+            <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-2">
+                <div class="flex items-center gap-6">
+                    <a href="tel:02125550000" class="flex items-center gap-2 hover:text-orange-400 transition">
+                        <i data-lucide="phone" class="w-3 h-3"></i> 0 (212) 555 00 00
+                    </a>
+                    <a href="mailto:bilgi@ozguvenegitim.com" class="flex items-center gap-2 hover:text-orange-400 transition">
+                        <i data-lucide="mail" class="w-3 h-3"></i> bilgi@ozguvenegitim.com
+                    </a>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="flex items-center gap-1 text-gray-400"><i data-lucide="clock" class="w-3 h-3"></i> Pzt-Cmt: 09:00 - 18:00</span>
+                    <div class="flex gap-2">
+                        <a href="#" class="hover:text-blue-400 transition"><i data-lucide="facebook" class="w-3 h-3"></i></a>
+                        <a href="#" class="hover:text-pink-400 transition"><i data-lucide="instagram" class="w-3 h-3"></i></a>
+                        <a href="#" class="hover:text-blue-300 transition"><i data-lucide="twitter" class="w-3 h-3"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ANA MENÜ -->
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <!-- LOGO ALANI -->
             <a href="index.html" class="flex items-center gap-3 group">
-                <div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-2xl shadow-lg shadow-blue-200 group-hover:scale-105 transition duration-300">Ö</div>
+                <div class="w-14 h-14 bg-red-600 rounded-lg flex items-center justify-center text-white font-bold text-2xl shadow-md group-hover:bg-red-700 transition">Ö</div>
                 <div class="flex flex-col">
-                    <h1 class="text-xl font-extrabold text-slate-800 leading-none tracking-tight">Özgüven</h1>
-                    <p class="text-[10px] text-blue-600 font-bold tracking-widest uppercase mt-0.5">Özel Eğitim Merkezi</p>
+                    <h1 class="text-2xl font-extrabold text-gray-800 leading-none tracking-tight uppercase">Özgüven</h1>
+                    <p class="text-xs text-red-600 font-bold tracking-widest uppercase mt-1">Özel Eğitim & Rehabilitasyon</p>
                 </div>
             </a>
 
-            <!-- MENÜ LİNKLERİ -->
-            <nav class="hidden md:flex space-x-1">
-                <a href="index.html" class="px-4 py-2 rounded-full hover:bg-blue-50 hover:text-blue-600 transition font-medium text-sm text-slate-600">Ana Sayfa</a>
-                <a href="kurumsal.html" class="px-4 py-2 rounded-full hover:bg-blue-50 hover:text-blue-600 transition font-medium text-sm text-slate-600">Kurumsal</a>
-                <a href="blog.html" class="px-4 py-2 rounded-full hover:bg-blue-50 hover:text-blue-600 transition font-medium text-sm text-slate-600">Blog</a>
-                <a href="iletisim.html" class="px-4 py-2 rounded-full hover:bg-blue-50 hover:text-blue-600 transition font-medium text-sm text-slate-600">İletişim</a>
+            <!-- MENÜ LİNKLERİ (Desktop) -->
+            <nav class="hidden lg:flex items-center gap-1">
+                <a href="index.html" class="px-4 py-2 font-bold text-sm text-gray-700 hover:text-red-600 transition uppercase tracking-wide">Ana Sayfa</a>
+                <a href="kurumsal.html" class="px-4 py-2 font-bold text-sm text-gray-700 hover:text-red-600 transition uppercase tracking-wide">Kurumsal</a>
+                <a href="blog.html" class="px-4 py-2 font-bold text-sm text-gray-700 hover:text-red-600 transition uppercase tracking-wide">Blog</a>
+                <a href="iletisim.html" class="px-4 py-2 font-bold text-sm text-gray-700 hover:text-red-600 transition uppercase tracking-wide">İletişim</a>
             </nav>
 
-            <!-- SAĞ BUTONLAR -->
+            <!-- SAĞ AKSİYONLAR -->
             <div class="flex items-center gap-3">
-                <a href="iletisim.html" class="hidden md:flex bg-orange-500 hover:bg-orange-600 text-white px-5 py-2.5 rounded-full font-bold text-sm transition shadow-md hover:shadow-lg items-center gap-2 transform active:scale-95">
+                <a href="iletisim.html" class="hidden md:flex bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-md font-bold text-sm transition shadow-lg items-center gap-2 transform active:scale-95 uppercase tracking-wider">
                     <i data-lucide="calendar-check" class="w-4 h-4"></i> Randevu Al
                 </a>
-                <a href="admin.html" class="text-gray-400 hover:text-blue-600 transition p-2 rounded-full hover:bg-gray-100" title="Yönetici Paneli">
-                    <i data-lucide="lock" class="w-5 h-5"></i>
+                <a href="admin.html" class="text-gray-400 hover:text-red-600 transition p-2 border border-gray-200 rounded-md hover:border-red-600" title="Yönetici Paneli">
+                    <i data-lucide="lock" class="w-4 h-4"></i>
                 </a>
                 <!-- Mobil Menü Butonu -->
-                <button class="md:hidden text-gray-600 p-2" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
-                    <i data-lucide="menu" class="w-7 h-7"></i>
+                <button class="lg:hidden text-gray-800 p-2" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                    <i data-lucide="menu" class="w-8 h-8"></i>
                 </button>
             </div>
         </div>
         
         <!-- MOBİL MENÜ İÇERİĞİ -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full left-0 shadow-xl p-4 flex flex-col gap-2 z-50">
-            <a href="index.html" class="p-3 bg-gray-50 rounded-lg font-medium text-slate-700">Ana Sayfa</a>
-            <a href="kurumsal.html" class="p-3 bg-gray-50 rounded-lg font-medium text-slate-700">Kurumsal</a>
-            <a href="blog.html" class="p-3 bg-gray-50 rounded-lg font-medium text-slate-700">Blog</a>
-            <a href="iletisim.html" class="p-3 bg-gray-50 rounded-lg font-medium text-slate-700">İletişim</a>
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 absolute w-full left-0 shadow-2xl p-0 flex flex-col z-50">
+            <a href="index.html" class="p-4 border-b border-gray-50 font-bold text-gray-700 hover:bg-red-50 hover:text-red-600 hover:pl-6 transition-all uppercase text-sm">Ana Sayfa</a>
+            <a href="kurumsal.html" class="p-4 border-b border-gray-50 font-bold text-gray-700 hover:bg-red-50 hover:text-red-600 hover:pl-6 transition-all uppercase text-sm">Kurumsal</a>
+            <a href="blog.html" class="p-4 border-b border-gray-50 font-bold text-gray-700 hover:bg-red-50 hover:text-red-600 hover:pl-6 transition-all uppercase text-sm">Blog</a>
+            <a href="iletisim.html" class="p-4 border-b border-gray-50 font-bold text-gray-700 hover:bg-red-50 hover:text-red-600 hover:pl-6 transition-all uppercase text-sm">İletişim</a>
         </div>
         `;
     }
@@ -71,55 +94,75 @@ const renderLayout = () => {
     const footerEl = document.getElementById('main-footer');
     if (footerEl) {
         footerEl.innerHTML = `
-        <div class="container mx-auto px-4 grid md:grid-cols-4 gap-8 text-center md:text-left">
-            <div class="md:col-span-1">
-                <div class="flex items-center justify-center md:justify-start gap-2 mb-4 group">
-                    <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">Ö</div>
-                    <h3 class="text-xl font-bold text-white">Özgüven Eğitim</h3>
-                </div>
-                <p class="text-sm leading-relaxed mb-6 text-slate-400">
-                    Özel eğitimde güvenin adresi. Bilimsel metotlar ve sevgi dolu bir yaklaşımla, her bireyin potansiyelini en üst düzeye çıkarıyoruz.
-                </p>
-            </div>
-
-            <div>
-                <h3 class="text-white font-bold mb-4 uppercase text-sm tracking-wider">Hızlı Erişim</h3>
-                <ul class="space-y-2 text-sm text-slate-400">
-                    <li><a href="index.html" class="hover:text-white transition flex items-center justify-center md:justify-start gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-orange-500"></i> Ana Sayfa</a></li>
-                    <li><a href="kurumsal.html" class="hover:text-white transition flex items-center justify-center md:justify-start gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-orange-500"></i> Hakkımızda</a></li>
-                    <li><a href="blog.html" class="hover:text-white transition flex items-center justify-center md:justify-start gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-orange-500"></i> Blog</a></li>
-                    <li><a href="iletisim.html" class="hover:text-white transition flex items-center justify-center md:justify-start gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-orange-500"></i> İletişim</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h3 class="text-white font-bold mb-4 uppercase text-sm tracking-wider">Hizmetlerimiz</h3>
-                <ul class="space-y-2 text-sm text-slate-400">
-                    <li>Özel Öğrenme Güçlüğü</li>
-                    <li>Otizm Spektrum Eğitimi</li>
-                    <li>Fizyoterapi ve Rehabilitasyon</li>
-                    <li>Dil ve Konuşma Terapisi</li>
-                </ul>
-            </div>
-
-            <div>
-                <h3 class="text-white font-bold mb-4 uppercase text-sm tracking-wider">Bize Ulaşın</h3>
-                <div class="space-y-3 text-sm text-slate-400">
-                    <div class="flex flex-col items-center md:items-start">
-                        <span class="text-slate-500 text-xs uppercase font-bold">Telefon</span>
-                        <a href="tel:02125550000" class="hover:text-white transition">0 (212) 555 00 00</a>
-                    </div>
-                    <div class="flex flex-col items-center md:items-start">
-                        <span class="text-slate-500 text-xs uppercase font-bold">Adres</span>
-                        <span>Merkez Mah. Eğitim Cad. No:1<br>Bağcılar / İstanbul</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="border-t border-slate-800 mt-12 pt-8 text-center text-xs text-slate-500">
+        <div class="bg-[#1e293b] text-gray-300 pt-16 pb-8">
             <div class="container mx-auto px-4">
-                <p>&copy; 2025 Özgüven Özel Eğitim ve Rehabilitasyon Merkezi. Tüm hakları saklıdır.</p>
+                <div class="grid md:grid-cols-4 gap-10 mb-12 border-b border-gray-700 pb-12">
+                    
+                    <!-- Sütun 1: Kurumsal -->
+                    <div class="md:col-span-1">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-10 h-10 bg-red-600 rounded flex items-center justify-center text-white font-bold text-xl">Ö</div>
+                            <h3 class="text-xl font-bold text-white uppercase tracking-wider">Özgüven</h3>
+                        </div>
+                        <p class="text-sm leading-relaxed mb-6 text-gray-400">
+                            Özel eğitimde güvenin adresi. Bilimsel metotlar, uzman kadro ve sevgi dolu bir yaklaşımla, her bireyin potansiyelini en üst düzeye çıkarıyoruz.
+                        </p>
+                        <div class="flex gap-3">
+                            <a href="#" class="w-8 h-8 bg-gray-700 rounded flex items-center justify-center hover:bg-blue-600 hover:text-white transition"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+                            <a href="#" class="w-8 h-8 bg-gray-700 rounded flex items-center justify-center hover:bg-pink-600 hover:text-white transition"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+                            <a href="#" class="w-8 h-8 bg-gray-700 rounded flex items-center justify-center hover:bg-sky-500 hover:text-white transition"><i data-lucide="twitter" class="w-4 h-4"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Sütun 2: Hızlı Erişim -->
+                    <div>
+                        <h3 class="text-white font-bold mb-6 uppercase text-sm tracking-widest border-b-2 border-red-600 inline-block pb-1">Hızlı Erişim</h3>
+                        <ul class="space-y-3 text-sm">
+                            <li><a href="index.html" class="hover:text-red-400 transition flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-red-600"></i> Ana Sayfa</a></li>
+                            <li><a href="kurumsal.html" class="hover:text-red-400 transition flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-red-600"></i> Hakkımızda</a></li>
+                            <li><a href="blog.html" class="hover:text-red-400 transition flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-red-600"></i> Blog</a></li>
+                            <li><a href="iletisim.html" class="hover:text-red-400 transition flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-red-600"></i> İletişim</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Sütun 3: Hizmetler -->
+                    <div>
+                        <h3 class="text-white font-bold mb-6 uppercase text-sm tracking-widest border-b-2 border-red-600 inline-block pb-1">Hizmetlerimiz</h3>
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-3 h-3 text-red-600"></i> Özel Öğrenme Güçlüğü</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-3 h-3 text-red-600"></i> Otizm Spektrum Eğitimi</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-3 h-3 text-red-600"></i> Fizyoterapi</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-3 h-3 text-red-600"></i> Dil ve Konuşma</li>
+                        </ul>
+                    </div>
+
+                    <!-- Sütun 4: İletişim -->
+                    <div>
+                        <h3 class="text-white font-bold mb-6 uppercase text-sm tracking-widest border-b-2 border-red-600 inline-block pb-1">Bize Ulaşın</h3>
+                        <div class="space-y-4 text-sm">
+                            <div class="flex gap-3">
+                                <i data-lucide="map-pin" class="w-5 h-5 text-red-500 mt-1"></i>
+                                <span>Merkez Mah. Eğitim Cad.<br>No:1 Bağcılar / İstanbul</span>
+                            </div>
+                            <div class="flex gap-3">
+                                <i data-lucide="phone" class="w-5 h-5 text-red-500 mt-1"></i>
+                                <a href="tel:02125550000" class="hover:text-white transition">0 (212) 555 00 00</a>
+                            </div>
+                            <div class="flex gap-3">
+                                <i data-lucide="mail" class="w-5 h-5 text-red-500 mt-1"></i>
+                                <a href="mailto:bilgi@ozguvenegitim.com" class="hover:text-white transition">bilgi@ozguvenegitim.com</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+                    <p>&copy; 2025 Özgüven Özel Eğitim ve Rehabilitasyon Merkezi.</p>
+                    <div class="flex gap-6">
+                        <a href="#" class="hover:text-white transition">Gizlilik Politikası</a>
+                        <a href="#" class="hover:text-white transition">Kullanım Şartları</a>
+                    </div>
+                </div>
             </div>
         </div>`;
     }
