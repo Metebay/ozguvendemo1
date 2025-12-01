@@ -18,6 +18,9 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const appId = 'ozguven-web';
 
+// Global Veri Deposu
+window.blogData = [];
+
 // --- ORTAK HEADER VE FOOTER OLUŞTURUCU (Tüm Sayfalar İçin) ---
 const renderLayout = () => {
     // 1. HEADER (MENÜ) OLUŞTURMA
@@ -171,7 +174,85 @@ const renderLayout = () => {
     if(window.lucide) lucide.createIcons();
 };
 
-// --- VERİ İŞLEMLERİ ---
+// --- YÖNETİCİ & NAVİGASYON FONKSİYONLARI (GLOBAL) ---
+
+// YENİ: Blog Detayına Gitme (Güvenli Yöntem)
+window.goToBlogDetail = (id) => {
+    // 1. Doğru blogu bul
+    const selectedBlog = window.blogData.find(b => b.id === id);
+    
+    if (selectedBlog) {
+        // 2. Veriyi kaydet
+        localStorage.setItem('currentBlog', JSON.stringify(selectedBlog));
+        // 3. Yönlendir
+        window.location.href = 'blog-detay.html';
+    } else {
+        alert("Blog yazısı bulunamadı veya yüklenemedi.");
+    }
+};
+
+window.addStaff = async (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    btn.innerText = "Ekleniyor..."; btn.disabled = true;
+    try {
+        await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'staff'), {
+            category: document.getElementById('staff-category').value,
+            name: document.getElementById('staff-name').value,
+            role: document.getElementById('staff-role').value,
+            image: document.getElementById('staff-img').value,
+            createdAt: serverTimestamp()
+        });
+        alert("Personel Eklendi!"); e.target.reset();
+    } catch(err) { alert("Hata: " + err.message); }
+    btn.innerText = "Ekle"; btn.disabled = false;
+};
+
+window.addBlog = async (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    btn.innerText = "Yayınlanıyor..."; btn.disabled = true;
+    try {
+        await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'blog'), {
+            title: document.getElementById('blog-title').value,
+            author: document.getElementById('blog-author').value,
+            content: document.getElementById('blog-content').value,
+            image: document.getElementById('blog-img').value,
+            date: new Date().toLocaleDateString('tr-TR'),
+            createdAt: serverTimestamp()
+        });
+        alert("Yazı Yayınlandı!"); e.target.reset();
+    } catch(err) { alert("Hata: " + err.message); }
+    btn.innerText = "Yayınla"; btn.disabled = false;
+};
+
+window.handleContact = async (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    btn.innerText = "Gönderiliyor..."; btn.disabled = true;
+    try {
+        await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'messages'), {
+            name: document.getElementById('contact-name').value,
+            phone: document.getElementById('contact-phone').value,
+            message: document.getElementById('contact-message').value,
+            createdAt: serverTimestamp()
+        });
+        alert("Mesajınız alındı."); e.target.reset();
+    } catch(err) { alert("Hata: " + err.message); }
+    btn.innerText = "Gönder"; btn.disabled = false;
+};
+
+window.deleteItem = async (collectionName, id) => {
+    if(!confirm("Bu kaydı kalıcı olarak silmek istiyor musunuz?")) return;
+    try {
+        await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', collectionName, id));
+    } catch(err) {
+        console.error(err);
+        alert("Silme hatası: İzinlerinizi kontrol edin.");
+    }
+};
+
+// --- VERİ ÇEKME & LİSTELEME ---
 
 // 1. KADRO LİSTELEME
 const initStaff = () => {
@@ -183,7 +264,6 @@ const initStaff = () => {
     onSnapshot(query(collection(db, 'artifacts', appId, 'public', 'data', 'staff'), orderBy('createdAt', 'desc')), (snap) => {
         const list = snap.docs.map(d => ({id: d.id, ...d.data()}));
 
-        // Kurumsal Sayfası Render
         if(listDiv) {
             listDiv.innerHTML = '';
             const cats = {'kurucu':'Kurucular','mudur':'İdari','ogretmen':'Öğretmenler','fizyoterapist':'Fizyoterapistler','destek':'Destek'};
@@ -197,7 +277,7 @@ const initStaff = () => {
                             ${grp.map(s => `
                                 <div class="bg-white p-6 rounded-2xl shadow-sm text-center border border-slate-100 hover:shadow-xl transition group">
                                     <div class="w-32 h-32 mx-auto bg-slate-100 rounded-full mb-6 overflow-hidden border-4 border-white shadow-md">
-                                        <img src="${s.image || 'https://ui-avatars.com/api/?name='+s.name+'&background=random'}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" loading="lazy">
+                                        <img src="${s.image || 'https://ui-avatars.com/api/?name='+s.name+'&background=random'}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                                     </div>
                                     <h4 class="font-bold text-lg text-slate-800">${s.name}</h4>
                                     <p class="text-blue-600 font-medium text-sm mt-1">${s.role}</p>
@@ -210,7 +290,6 @@ const initStaff = () => {
             document.getElementById('staff-loading').style.display = 'none';
         }
 
-        // Admin Listesi Render
         if(adminList) {
             adminList.innerHTML = list.map(s => `
                 <li class="flex justify-between items-center bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
@@ -229,7 +308,7 @@ const initStaff = () => {
     });
 };
 
-// 2. BLOG LİSTELEME
+// 2. BLOG LİSTELEME (DÜZELTİLDİ)
 const initBlog = () => {
     const blogGrid = document.getElementById('blog-grid');
     const adminBlogList = document.getElementById('admin-blog-list');
@@ -238,12 +317,16 @@ const initBlog = () => {
 
     onSnapshot(query(collection(db, 'artifacts', appId, 'public', 'data', 'blog'), orderBy('createdAt', 'desc')), (snap) => {
         const list = snap.docs.map(d => ({id: d.id, ...d.data()}));
+        
+        // Veriyi globale kaydet (ÖNEMLİ)
+        window.blogData = list;
 
-        // Blog Sayfası Render
         if(blogGrid) {
             document.getElementById('blog-loading').style.display = 'none';
+            // DÜZELTME: onclick içinde doğrudan fonksiyon çağırıyoruz
             blogGrid.innerHTML = list.map(b => `
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-xl transition cursor-pointer flex flex-col h-full group" onclick="localStorage.setItem('currentBlog', JSON.stringify({id:'${b.id}', title:'${b.title}', content:'${b.content.replace(/'/g, "\\'")}', author:'${b.author}', date:'${b.date}', image:'${b.image}'})); window.location.href='blog-detay.html'">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-xl transition cursor-pointer flex flex-col h-full group" 
+                     onclick="goToBlogDetail('${b.id}')">
                     <div class="h-56 bg-slate-200 overflow-hidden relative">
                         <img src="${b.image || 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=600&q=80'}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy">
                         <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-slate-600 shadow-sm">
@@ -263,7 +346,6 @@ const initBlog = () => {
             lucide.createIcons();
         }
 
-        // Admin Listesi Render
         if(adminBlogList) {
             adminBlogList.innerHTML = list.map(b => `
                 <li class="flex justify-between items-center bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
@@ -283,11 +365,12 @@ const initMessages = () => {
 
     onSnapshot(query(collection(db, 'artifacts', appId, 'public', 'data', 'messages'), orderBy('createdAt', 'desc')), (snap) => {
         const list = snap.docs.map(d => ({id: d.id, ...d.data()}));
+        const emptyMsg = document.getElementById('messages-empty');
         
         if (list.length === 0) {
-            document.getElementById('messages-empty').classList.remove('hidden');
+            if(emptyMsg) emptyMsg.classList.remove('hidden');
         } else {
-            document.getElementById('messages-empty').classList.add('hidden');
+            if(emptyMsg) emptyMsg.classList.add('hidden');
         }
 
         msgList.innerHTML = list.map(m => `
@@ -304,69 +387,10 @@ const initMessages = () => {
     });
 };
 
-// GLOBAL FONKSİYONLAR (HTML'den Erişilebilir)
-window.addStaff = async (e) => {
-    e.preventDefault();
-    const btn = e.target.querySelector('button');
-    btn.innerHTML = "Ekleniyor..."; btn.disabled = true;
-    try {
-        await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'staff'), {
-            category: document.getElementById('staff-category').value,
-            name: document.getElementById('staff-name').value,
-            role: document.getElementById('staff-role').value,
-            image: document.getElementById('staff-img').value,
-            createdAt: serverTimestamp()
-        });
-        alert("Kayıt Eklendi!"); e.target.reset();
-    } catch(err) { alert("Hata: " + err.message); }
-    btn.innerHTML = "Ekle"; btn.disabled = false;
-};
-
-window.addBlog = async (e) => {
-    e.preventDefault();
-    const btn = e.target.querySelector('button');
-    btn.innerHTML = "Yayınlanıyor..."; btn.disabled = true;
-    try {
-        await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'blog'), {
-            title: document.getElementById('blog-title').value,
-            author: document.getElementById('blog-author').value,
-            content: document.getElementById('blog-content').value,
-            image: document.getElementById('blog-img').value,
-            date: new Date().toLocaleDateString('tr-TR'),
-            createdAt: serverTimestamp()
-        });
-        alert("Yazı Yayınlandı!"); e.target.reset();
-    } catch(err) { alert("Hata: " + err.message); }
-    btn.innerHTML = "Yayınla"; btn.disabled = false;
-};
-
-window.handleContact = async (e) => {
-    e.preventDefault();
-    const btn = e.target.querySelector('button');
-    btn.innerHTML = "Gönderiliyor..."; btn.disabled = true;
-    try {
-        await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'messages'), {
-            name: document.getElementById('contact-name').value,
-            phone: document.getElementById('contact-phone').value,
-            message: document.getElementById('contact-message').value,
-            createdAt: serverTimestamp()
-        });
-        alert("Mesajınız İletildi."); e.target.reset();
-    } catch(err) { alert("Hata: " + err.message); }
-    btn.innerHTML = "Gönder"; btn.disabled = false;
-};
-
-window.deleteItem = async (col, id) => {
-    if(!confirm("Silmek istediğinize emin misiniz?")) return;
-    try {
-        await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', col, id));
-    } catch(err) { alert("Silinemedi: " + err.message); }
-};
-
-// BAŞLATMA
+// BAŞLAT
 signInAnonymously(auth).then(() => {
-    renderLayout(); // Header ve Footer'ı çiz
-    initStaff();    // Kadro verilerini çek (varsa)
-    initBlog();     // Blog verilerini çek (varsa)
-    initMessages(); // Mesajları çek (varsa - admin)
+    renderLayout();
+    initStaff();
+    initBlog();
+    initMessages();
 }).catch(console.error);
