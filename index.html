@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Özgüven Özel Eğitim ve Rehabilitasyon Merkezi - İstanbul">
+    <title>Özgüven Özel Eğitim ve Rehabilitasyon Merkezi</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide İkonları -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Sayfa Geçiş Animasyonları */
+        .page-section { 
+            display: none; 
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .page-section.active { 
+            display: block; 
+            opacity: 1;
+        }
+        
+        /* Animasyon Keyframes */
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .animate-slide-up { animation: slideUp 0.5s ease-out forwards; }
+        
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen bg-slate-50 text-slate-800">
+
+    <!-- ==========================================
+         HATA BİLDİRİM ALANI (OTOMATİK ÇIKAR)
+    ========================================== -->
+    <div id="permission-error-banner" class="hidden fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl p-8 max-w-2xl w-full shadow-2xl relative">
+            <div class="flex items-start gap-4">
+                <div class="bg-red-100 p-3 rounded-full text-red-600">
+                    <i data-lucide="alert-triangle" class="w-8 h-8"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Veritabanı İzni Reddedildi</h2>
+                    <p class="text-gray-600 mb-4">
+                        Firebase Firestore güvenlik kurallarınız bu veriyi okumayı/yazmayı engelliyor.
+                        Bu hatayı düzeltmek için <strong>Firebase Console > Firestore Database > Rules</strong> sekmesine gidip şu kuralları yapıştırın:
+                    </p>
+                    <div class="bg-gray-900 text-gray-300 p-4 rounded-lg font-mono text-sm overflow-x-auto mb-4 border border-gray-700">
+<pre>rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}</pre>
+                    </div>
+                    <button onclick="window.location.reload()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold transition w-full">
+                        Kuralları Güncelledim, Sayfayı Yenile
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         BÖLÜM 1: HEADER VE NAVİGASYON
+    ========================================== -->
+
+    <!-- Üst Bilgi Çubuğu (Desktop Only) -->
+    <div class="bg-slate-900 text-slate-300 text-xs py-2 hidden md:block border-b border-slate-800">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <div class="flex gap-6">
+                <a href="tel:02125550000" class="flex items-center gap-1.5 hover:text-white transition"><i data-lucide="phone" class="w-3.5 h-3.5"></i> 0 (212) 555 00 00</a>
+                <a href="mailto:bilgi@ozguvenegitim.com" class="flex items-center gap-1.5 hover:text-white transition"><i data-lucide="mail" class="w-3.5 h-3.5"></i> bilgi@ozguvenegitim.com</a>
+            </div>
+            <div class="flex gap-6">
+                <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-3.5 h-3.5"></i> Pzt-Cmt 09:00 - 18:00</span>
+                <span class="text-orange-400 font-bold flex items-center gap-1.5"><i data-lucide="bus" class="w-3.5 h-3.5"></i> Ücretsiz Servis</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ana Menü -->
+    <header class="bg-white/95 backdrop-blur-sm shadow-sm sticky top-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Logo Alanı -->
+            <a href="#home" class="flex items-center gap-3 group">
+                <!-- LOGO BURAYA GELECEK -->
+                <img src="https://via.placeholder.com/200x60/ffffff/2563eb?text=%C3%96zg%C3%BCven+Logo" alt="Özgüven Logo" class="h-12 w-auto object-contain">
+            </a>
+
+            <!-- Desktop Linkler -->
+            <nav class="hidden md:flex space-x-1">
+                <a href="#home" class="nav-link px-4 py-2 rounded-full hover:bg-blue-50 hover:text-blue-600 transition font-medium text-sm">Ana Sayfa</a>
+                <a href="#corporate" class="nav-link px-4 py-2 rounded-full hover:bg-blue-50 hover:text-blue-600 transition font-medium text-sm">Kurumsal</a>
+                <a href="#blog" class="nav-link px-4 py-2 rounded-full hover:bg-blue-50 hover:text-blue-600 transition font-medium text-sm">Blog</a>
+                <a href="#contact" class="nav-link px-4 py-2 rounded-full hover:bg-blue-50 hover:text-blue-600 transition font-medium text-sm">İletişim</a>
+            </nav>
+
+            <!-- Sağ Butonlar -->
+            <div class="flex items-center gap-3">
+                <a href="#contact" class="hidden md:flex bg-orange-500 hover:bg-orange-600 text-white px-5 py-2.5 rounded-full font-bold text-sm transition shadow-md hover:shadow-lg items-center gap-2 transform active:scale-95">
+                    <i data-lucide="calendar-check" class="w-4 h-4"></i> Randevu Al
+                </a>
+                <a href="#admin" class="text-gray-400 hover:text-blue-600 transition p-2 rounded-full hover:bg-gray-100" title="Yönetici Paneli">
+                    <i data-lucide="lock" class="w-5 h-5"></i>
+                </a>
+                <!-- Mobil Menü Tetikleyici -->
+                <button class="md:hidden text-gray-600 p-2" onclick="toggleMobileMenu()">
+                    <i data-lucide="menu" class="w-7 h-7"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobil Menü İçeriği -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full left-0 shadow-xl transition-all duration-300">
+            <div class="p-4 flex flex-col space-y-2">
+                <a href="#home" class="mobile-link block w-full p-3 rounded-lg hover:bg-gray-50 font-medium">Ana Sayfa</a>
+                <a href="#corporate" class="mobile-link block w-full p-3 rounded-lg hover:bg-gray-50 font-medium">Kurumsal</a>
+                <a href="#blog" class="mobile-link block w-full p-3 rounded-lg hover:bg-gray-50 font-medium">Blog</a>
+                <a href="#contact" class="mobile-link block w-full p-3 rounded-lg hover:bg-gray-50 font-medium">İletişim</a>
+                <a href="#contact" class="mobile-link block w-full p-3 rounded-lg bg-orange-500 text-white font-bold text-center mt-2">Randevu Al</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==========================================
+         BÖLÜM 2: SAYFA İÇERİKLERİ (SPA)
+    ========================================== -->
+    <main class="flex-grow relative">
+
+        <!-- SAYFA: ANA SAYFA -->
+        <div id="home" class="page-section">
+            <!-- Hero Banner -->
+            <section class="relative h-[600px] flex items-center overflow-hidden bg-slate-900">
+                <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" alt="Eğitim Sınıfı" class="absolute inset-0 w-full h-full object-cover opacity-40">
+                <div class="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent"></div>
+                
+                <div class="container mx-auto px-4 relative z-10 text-white pt-10">
+                    <div class="max-w-2xl animate-slide-up">
+                        <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-1.5 rounded-full text-xs font-bold mb-6 text-blue-100">
+                            <i data-lucide="shield-check" class="w-4 h-4 text-green-400"></i> MEB ONAYLI KURUM
+                        </div>
+                        <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
+                            Sevgiyle Eğitiyor,<br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-400">Özgüvenle</span> Büyütüyoruz
+                        </h1>
+                        <p class="text-blue-100 text-lg mb-10 leading-relaxed opacity-90 max-w-lg">
+                            Her çocuk özeldir ve en iyi eğitimi hak eder. Uzman kadromuzla potansiyellerini keşfediyoruz.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <a href="#contact" class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-xl font-bold transition shadow-xl hover:shadow-orange-500/30 flex items-center justify-center gap-2">
+                                Ücretsiz Değerlendirme <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                            </a>
+                            <a href="#corporate" class="bg-white/10 backdrop-blur-md hover:bg-white/20 text-white px-8 py-4 rounded-xl font-bold transition border border-white/30 text-center">
+                                Kadromuzu Tanıyın
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- İstatistikler -->
+            <div class="relative z-20 -mt-16 container mx-auto px-4 mb-20">
+                <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-gray-100">
+                    <div class="text-center group cursor-default">
+                        <div class="text-4xl font-extrabold text-blue-600 mb-1 group-hover:scale-110 transition duration-300">15+</div>
+                        <div class="text-xs text-gray-500 uppercase font-bold tracking-wider">Yıllık Tecrübe</div>
+                    </div>
+                    <div class="text-center group cursor-default">
+                        <div class="text-4xl font-extrabold text-orange-500 mb-1 group-hover:scale-110 transition duration-300">500+</div>
+                        <div class="text-xs text-gray-500 uppercase font-bold tracking-wider">Mutlu Öğrenci</div>
+                    </div>
+                    <div class="text-center group cursor-default">
+                        <div class="text-4xl font-extrabold text-green-500 mb-1 group-hover:scale-110 transition duration-300">25+</div>
+                        <div class="text-xs text-gray-500 uppercase font-bold tracking-wider">Uzman Eğitmen</div>
+                    </div>
+                    <div class="text-center group border-none cursor-default">
+                        <div class="text-4xl font-extrabold text-purple-500 mb-1 group-hover:scale-110 transition duration-300">%100</div>
+                        <div class="text-xs text-gray-500 uppercase font-bold tracking-wider">Memnuniyet</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hizmetler Özeti -->
+            <section class="py-16 bg-white">
+                <div class="container mx-auto px-4 text-center">
+                    <span class="text-orange-500 font-bold tracking-wider uppercase text-xs">NELER YAPIYORUZ?</span>
+                    <h2 class="text-3xl font-bold text-gray-900 mt-2 mb-12">Hizmetlerimiz</h2>
+                    
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <!-- Kart 1 -->
+                        <div class="bg-slate-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 border border-slate-100 group text-left">
+                            <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition duration-300">
+                                <i data-lucide="brain" class="w-7 h-7"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 text-gray-800">Özel Eğitim</h3>
+                            <p class="text-gray-500 text-sm leading-relaxed mb-6">Zihinsel yetersizlik, otizm ve öğrenme güçlüğü yaşayan bireyler için birebir destek.</p>
+                            <a href="#contact" class="text-blue-600 font-bold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">Detaylı Bilgi <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+                        </div>
+                        <!-- Kart 2 -->
+                        <div class="bg-slate-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 border border-slate-100 group text-left">
+                            <div class="w-14 h-14 bg-green-100 text-green-600 rounded-xl flex items-center justify-center mb-6 group-hover:bg-green-600 group-hover:text-white transition duration-300">
+                                <i data-lucide="activity" class="w-7 h-7"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 text-gray-800">Fizyoterapi</h3>
+                            <p class="text-gray-500 text-sm leading-relaxed mb-6">Bedensel engelli bireylerin hareket kabiliyetini artırmaya yönelik rehabilitasyon.</p>
+                            <a href="#contact" class="text-green-600 font-bold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">Detaylı Bilgi <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+                        </div>
+                        <!-- Kart 3 -->
+                        <div class="bg-slate-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 border border-slate-100 group text-left">
+                            <div class="w-14 h-14 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center mb-6 group-hover:bg-orange-600 group-hover:text-white transition duration-300">
+                                <i data-lucide="mic" class="w-7 h-7"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 text-gray-800">Dil ve Konuşma</h3>
+                            <p class="text-gray-500 text-sm leading-relaxed mb-6">Konuşma gecikmesi ve artikülasyon bozuklukları için uzman terapist desteği.</p>
+                            <a href="#contact" class="text-orange-600 font-bold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">Detaylı Bilgi <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+             <!-- Veli Yorumları -->
+             <section class="py-20 bg-white border-t border-slate-100">
+                <div class="container mx-auto px-4 text-center">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-12">Velilerimiz Ne Diyor?</h2>
+                    <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                        <div class="bg-slate-50 p-8 rounded-2xl relative text-left">
+                            <i data-lucide="quote" class="absolute top-6 left-6 text-blue-100 w-10 h-10 -z-0"></i>
+                            <p class="text-gray-600 italic mb-6 relative z-10 text-sm leading-relaxed">"Oğlumdaki gelişimi görmek paha biçilemez. Öğretmenlerimizin ilgisi, sabrı ve profesyonelliği için ne kadar teşekkür etsek azdır. İyi ki yollarımız kesişmiş."</p>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-sm">A</div>
+                                <div>
+                                    <div class="font-bold text-sm text-gray-900">Ayşe Demir</div>
+                                    <div class="text-xs text-gray-500">Öğrenci Velisi</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-8 rounded-2xl relative text-left">
+                            <i data-lucide="quote" class="absolute top-6 left-6 text-orange-100 w-10 h-10 -z-0"></i>
+                            <p class="text-gray-600 italic mb-6 relative z-10 text-sm leading-relaxed">"Kurumun fiziksel şartları çok iyi, servis hizmeti büyük kolaylık. Çocuğum buraya gelirken çok mutlu, bu bizim için en önemlisi."</p>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 font-bold text-sm">M</div>
+                                <div>
+                                    <div class="font-bold text-sm text-gray-900">Mehmet Yılmaz</div>
+                                    <div class="text-xs text-gray-500">Öğrenci Velisi</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- SAYFA: KURUMSAL (Kategorize Edilmiş) -->
+        <div id="corporate" class="page-section">
+            <div class="bg-slate-100 py-16 text-center">
+                <h1 class="text-3xl font-bold text-slate-800">Kurumsal & Kadromuz</h1>
+                <p class="text-slate-500 mt-2 max-w-xl mx-auto">Deneyimli, dinamik ve alanında uzman eğitim kadromuzla tanışın.</p>
+            </div>
+            <div class="container mx-auto px-4 py-16">
+                <div id="staff-loading" class="text-center py-10">
+                    <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600 mx-auto"></div>
+                    <p class="text-gray-400 mt-3 text-sm">Kadro yükleniyor...</p>
+                </div>
+                
+                <!-- Personel Listesi Buraya Dinamik Dolacak -->
+                <div id="staff-content"></div>
+            </div>
+        </div>
+
+        <!-- SAYFA: BLOG -->
+        <div id="blog" class="page-section">
+            <div class="bg-slate-100 py-16 text-center">
+                <h1 class="text-3xl font-bold text-slate-800">Blog & Makaleler</h1>
+                <p class="text-slate-500 mt-2 max-w-xl mx-auto">Özel eğitim dünyasından güncel bilgiler, tavsiyeler ve etkinlik haberleri.</p>
+            </div>
+            <div class="container mx-auto px-4 py-16">
+                <div id="blog-loading" class="text-center py-10">
+                    <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-orange-600 mx-auto"></div>
+                    <p class="text-gray-400 mt-3 text-sm">Yazılar yükleniyor...</p>
+                </div>
+                <div id="blog-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Javascript ile bloglar buraya dolacak -->
+                </div>
+            </div>
+        </div>
+
+        <!-- SAYFA: BLOG DETAY -->
+        <div id="blog-detail" class="page-section">
+            <div class="container mx-auto px-4 py-12 max-w-3xl animate-slide-up">
+                <a href="#blog" class="text-blue-600 flex items-center gap-2 mb-8 hover:underline font-medium text-sm">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Bloglara Dön
+                </a>
+                
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+                    <img id="detail-image" src="" alt="Blog Görseli" class="w-full h-[400px] object-cover hidden">
+                    
+                    <div class="p-8 md:p-10">
+                        <div class="flex items-center gap-4 text-xs font-semibold text-slate-500 mb-6 uppercase tracking-wider">
+                            <span class="flex items-center gap-1.5"><i data-lucide="user" class="w-4 h-4 text-orange-500"></i> <span id="detail-author">Yazar</span></span>
+                            <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4 text-orange-500"></i> <span id="detail-date">Tarih</span></span>
+                        </div>
+
+                        <h1 id="detail-title" class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-8 leading-tight">Başlık Yükleniyor...</h1>
+                        
+                        <div id="detail-body" class="prose prose-blue prose-lg max-w-none text-slate-600 leading-loose">
+                            <!-- İçerik -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SAYFA: İLETİŞİM -->
+        <div id="contact" class="page-section">
+            <div class="bg-slate-100 py-16 text-center">
+                <h1 class="text-3xl font-bold text-slate-800">İletişime Geçin</h1>
+                <p class="text-slate-500 mt-2">Sorularınız için bizimle iletişime geçebilirsiniz.</p>
+            </div>
+            <div class="container mx-auto px-4 py-16">
+                <div class="grid md:grid-cols-2 gap-12 bg-white rounded-3xl shadow-xl overflow-hidden">
+                    <div class="bg-slate-900 p-10 text-white flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-2xl font-bold mb-8">İletişim Bilgileri</h3>
+                            <div class="space-y-6">
+                                <div class="flex items-start gap-4">
+                                    <div class="bg-white/10 p-3 rounded-lg"><i data-lucide="map-pin"></i></div>
+                                    <div><h4 class="font-bold text-sm text-slate-300 uppercase tracking-wide">Adres</h4><p class="text-white mt-1">Merkez Mah. Eğitim Cad. No:1, Bağcılar / İstanbul</p></div>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <div class="bg-white/10 p-3 rounded-lg"><i data-lucide="phone"></i></div>
+                                    <div><h4 class="font-bold text-sm text-slate-300 uppercase tracking-wide">Telefon</h4><p class="text-white mt-1">0 (212) 555 00 00</p></div>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <div class="bg-white/10 p-3 rounded-lg"><i data-lucide="mail"></i></div>
+                                    <div><h4 class="font-bold text-sm text-slate-300 uppercase tracking-wide">E-Posta</h4><p class="text-white mt-1">bilgi@ozguvenegitim.com</p></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-10 h-40 bg-white/5 rounded-xl flex items-center justify-center border border-white/10 text-slate-400 text-sm">
+                            <span class="flex items-center gap-2"><i data-lucide="map"></i> Harita Alanı</span>
+                        </div>
+                    </div>
+                    
+                    <div class="p-10">
+                        <!-- İletişim Formu (Firestore Bağlantılı) -->
+                        <form onsubmit="handleContact(event)" class="space-y-5">
+                            <h3 class="font-bold text-2xl text-slate-800 mb-6">Bize Yazın</h3>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Adınız Soyadınız</label>
+                                <input id="contact-name" type="text" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Telefon Numaranız</label>
+                                <input id="contact-phone" type="tel" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Mesajınız</label>
+                                <textarea id="contact-message" rows="4" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" required></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-orange-500 text-white py-3.5 rounded-xl font-bold hover:bg-orange-600 transition shadow-lg transform active:scale-95">Mesajı Gönder</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SAYFA: ADMIN PANELİ -->
+        <div id="admin" class="page-section bg-slate-100 min-h-screen">
+            <div class="bg-slate-800 text-white py-4 shadow-md sticky top-0 z-40">
+                <div class="container mx-auto px-4 flex justify-between items-center">
+                    <h2 class="font-bold text-lg flex items-center gap-2"><i data-lucide="settings" class="w-5 h-5"></i> Yönetim Paneli</h2>
+                    <a href="#home" class="text-sm bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg transition">Siteye Dön</a>
+                </div>
+            </div>
+            
+            <div class="container mx-auto px-4 py-8 grid lg:grid-cols-3 gap-8">
+                
+                <!-- GELEN MESAJLAR (YENİ EKLENDİ) -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 lg:col-span-3">
+                    <div class="flex items-center justify-between mb-6 border-b border-slate-100 pb-4">
+                        <h3 class="font-bold text-xl text-slate-800 flex items-center gap-2"><i data-lucide="inbox" class="text-green-600"></i> Gelen Mesajlar</h3>
+                        <span class="text-xs font-mono bg-green-100 text-green-800 px-2 py-1 rounded">public/data/messages</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm text-slate-600">
+                            <thead class="bg-slate-50 text-slate-700 uppercase font-bold text-xs">
+                                <tr>
+                                    <th class="p-3">Ad Soyad</th>
+                                    <th class="p-3">Telefon</th>
+                                    <th class="p-3">Mesaj</th>
+                                    <th class="p-3">Tarih</th>
+                                    <th class="p-3 text-right">İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-messages-list" class="divide-y divide-slate-100">
+                                <!-- Mesajlar buraya dolacak -->
+                            </tbody>
+                        </table>
+                        <div id="messages-empty" class="text-center py-8 text-slate-400 hidden">Henüz mesaj yok.</div>
+                    </div>
+                </div>
+
+                <!-- KADRO YÖNETİMİ -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 lg:col-span-1">
+                    <div class="flex items-center justify-between mb-6 border-b border-slate-100 pb-4">
+                        <h3 class="font-bold text-xl text-slate-800 flex items-center gap-2"><i data-lucide="users" class="text-blue-600"></i> Kadro Yönetimi</h3>
+                    </div>
+                    
+                    <!-- Ekleme Formu -->
+                    <form onsubmit="addStaff(event)" class="space-y-4 mb-8 bg-slate-50 p-5 rounded-xl border border-slate-100">
+                        <h4 class="text-sm font-bold text-slate-700 uppercase tracking-wide">Yeni Personel Ekle</h4>
+                        <select id="staff-category" class="w-full p-2.5 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white" required>
+                            <option value="" disabled selected>Kategori Seçin</option>
+                            <option value="kurucu">Kurucu</option>
+                            <option value="mudur">Müdür</option>
+                            <option value="ogretmen">Öğretmen</option>
+                            <option value="fizyoterapist">Fizyoterapist</option>
+                            <option value="destek">Destek Personeli</option>
+                        </select>
+                        <input id="staff-name" type="text" placeholder="Ad Soyad" class="w-full p-2.5 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none" required>
+                        <input id="staff-role" type="text" placeholder="Ünvan (Örn: Ergoterapist)" class="w-full p-2.5 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none" required>
+                        <input id="staff-img" type="url" placeholder="Fotoğraf URL" class="w-full p-2.5 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                        <button type="submit" class="w-full bg-blue-600 text-white py-2.5 rounded-lg text-sm font-bold hover:bg-blue-700 transition flex items-center justify-center gap-2"><i data-lucide="plus-circle" class="w-4 h-4"></i> Listeye Ekle</button>
+                    </form>
+
+                    <!-- Kadro Listesi -->
+                    <h4 class="text-sm font-bold text-slate-500 mb-3 uppercase tracking-wide">Mevcut Liste</h4>
+                    <ul id="admin-staff-list" class="space-y-2 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                        <!-- JS ile dolacak -->
+                    </ul>
+                </div>
+
+                <!-- BLOG YÖNETİMİ -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 lg:col-span-2">
+                    <div class="flex items-center justify-between mb-6 border-b border-slate-100 pb-4">
+                        <h3 class="font-bold text-xl text-slate-800 flex items-center gap-2"><i data-lucide="file-text" class="text-orange-600"></i> Blog Yönetimi</h3>
+                    </div>
+                    
+                    <!-- Ekleme Formu -->
+                    <form onsubmit="addBlog(event)" class="space-y-4 mb-8 bg-slate-50 p-5 rounded-xl border border-slate-100">
+                        <h4 class="text-sm font-bold text-slate-700 uppercase tracking-wide">Yeni Yazı Ekle</h4>
+                        <input id="blog-title" type="text" placeholder="Başlık" class="w-full p-2.5 border rounded-lg text-sm focus:ring-2 focus:ring-orange-500 outline-none" required>
+                        <div class="grid grid-cols-2 gap-4">
+                            <input id="blog-author" type="text" placeholder="Yazar Adı" class="w-full p-2.5 border rounded-lg text-sm focus:ring-2 focus:ring-orange-500 outline-none" required>
+                            <input id="blog-img" type="url" placeholder="Kapak Görseli URL" class="w-full p-2.5 border rounded-lg text-sm focus:ring-2 focus:ring-orange-500 outline-none">
+                        </div>
+                        <textarea id="blog-content" rows="4" placeholder="İçerik..." class="w-full p-2.5 border rounded-lg text-sm focus:ring-2 focus:ring-orange-500 outline-none" required></textarea>
+                        <button type="submit" class="w-full bg-orange-500 text-white py-2.5 rounded-lg text-sm font-bold hover:bg-orange-600 transition flex items-center justify-center gap-2"><i data-lucide="send" class="w-4 h-4"></i> Yayınla</button>
+                    </form>
+
+                    <!-- Blog Listesi -->
+                    <h4 class="text-sm font-bold text-slate-500 mb-3 uppercase tracking-wide">Yayındaki Yazılar</h4>
+                    <ul id="admin-blog-list" class="space-y-2 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                        <!-- JS ile dolacak -->
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ==========================================
+         FOOTER (YENİ EKLENDİ)
+    ========================================== -->
+    <footer class="bg-slate-900 text-slate-300 py-12 mt-auto">
+        <div class="container mx-auto px-4 grid md:grid-cols-4 gap-8 text-center md:text-left">
+            <!-- Kurumsal Özet -->
+            <div class="md:col-span-1">
+                <a href="#home" class="flex items-center justify-center md:justify-start gap-2 mb-4 group">
+                    <img src="https://via.placeholder.com/150x50/ffffff/2563eb?text=%C3%96zg%C3%BCven" alt="Footer Logo" class="h-10 opacity-90 group-hover:opacity-100 transition">
+                </a>
+                <p class="text-sm leading-relaxed mb-6 text-slate-400">
+                    Özel eğitimde güvenin adresi. Bilimsel metotlar ve sevgi dolu bir yaklaşımla, her bireyin potansiyelini en üst düzeye çıkarıyoruz.
+                </p>
+                <div class="flex justify-center md:justify-start gap-4">
+                    <a href="#" class="bg-slate-800 p-2 rounded-full hover:bg-blue-600 hover:text-white transition"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+                    <a href="#" class="bg-slate-800 p-2 rounded-full hover:bg-pink-600 hover:text-white transition"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+                    <a href="#" class="bg-slate-800 p-2 rounded-full hover:bg-sky-500 hover:text-white transition"><i data-lucide="twitter" class="w-4 h-4"></i></a>
+                </div>
+            </div>
+
+            <!-- Hızlı Linkler -->
+            <div>
+                <h3 class="text-white font-bold mb-4 uppercase text-sm tracking-wider">Hızlı Erişim</h3>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#home" class="hover:text-white transition flex items-center justify-center md:justify-start gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-orange-500"></i> Ana Sayfa</a></li>
+                    <li><a href="#corporate" class="hover:text-white transition flex items-center justify-center md:justify-start gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-orange-500"></i> Hakkımızda</a></li>
+                    <li><a href="#blog" class="hover:text-white transition flex items-center justify-center md:justify-start gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-orange-500"></i> Blog</a></li>
+                    <li><a href="#contact" class="hover:text-white transition flex items-center justify-center md:justify-start gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-orange-500"></i> İletişim</a></li>
+                </ul>
+            </div>
+
+            <!-- Hizmetlerimiz -->
+            <div>
+                <h3 class="text-white font-bold mb-4 uppercase text-sm tracking-wider">Hizmetlerimiz</h3>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#home" class="hover:text-white transition">Özel Öğrenme Güçlüğü</a></li>
+                    <li><a href="#home" class="hover:text-white transition">Otizm Spektrum Eğitimi</a></li>
+                    <li><a href="#home" class="hover:text-white transition">Fizyoterapi ve Rehabilitasyon</a></li>
+                    <li><a href="#home" class="hover:text-white transition">Dil ve Konuşma Terapisi</a></li>
+                    <li><a href="#home" class="hover:text-white transition">Duyu Bütünleme</a></li>
+                </ul>
+            </div>
+
+            <!-- İletişim -->
+            <div>
+                <h3 class="text-white font-bold mb-4 uppercase text-sm tracking-wider">Bize Ulaşın</h3>
+                <div class="space-y-3 text-sm">
+                    <div class="flex flex-col items-center md:items-start">
+                        <span class="text-slate-500 text-xs uppercase font-bold">Telefon</span>
+                        <a href="tel:02125550000" class="hover:text-white transition">0 (212) 555 00 00</a>
+                    </div>
+                    <div class="flex flex-col items-center md:items-start">
+                        <span class="text-slate-500 text-xs uppercase font-bold">E-Posta</span>
+                        <a href="mailto:bilgi@ozguvenegitim.com" class="hover:text-white transition">bilgi@ozguvenegitim.com</a>
+                    </div>
+                    <div class="flex flex-col items-center md:items-start">
+                        <span class="text-slate-500 text-xs uppercase font-bold">Adres</span>
+                        <span>Merkez Mah. Eğitim Cad. No:1<br>Bağcılar / İstanbul</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="border-t border-slate-800 mt-12 pt-8 text-center text-xs text-slate-500">
+            <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p>&copy; 2025 Özgüven Özel Eğitim ve Rehabilitasyon Merkezi. Tüm hakları saklıdır.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="hover:text-white transition">KVKK Aydınlatma Metni</a>
+                    <a href="#" class="hover:text-white transition">Çerez Politikası</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================
+         JAVASCRIPT & FIREBASE ENTEGRASYONU
+    ========================================== -->
+    <script type="module">
+        // Güncel Firebase SDK Sürümleri (12.6.0)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, serverTimestamp, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
+
+        // Kullanıcının Özel Firebase Yapılandırması
+        const firebaseConfig = {
+            apiKey: "AIzaSyBx7su21qKLnYZ89OOjPm84UC3u63c6iUs",
+            authDomain: "potfolyo-e16e4.firebaseapp.com",
+            projectId: "potfolyo-e16e4",
+            storageBucket: "potfolyo-e16e4.firebasestorage.app",
+            messagingSenderId: "778216462965",
+            appId: "1:778216462965:web:69c9ad6ea0d22481b8b63c",
+            measurementId: "G-WV7WXHF7P0"
+        };
+        
+        // Uygulama ID'sini (appId) Firestore yolu için sabitliyoruz. 
+        // Böylece verileriniz Firestore'da 'artifacts/ozguven-web/...' altında düzenli durur.
+        const appId = 'ozguven-web';
+
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app); // Analytics başlatıldı
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // Global Değişkenler
+        window.currentBlogId = null;
+
+        // Auth Başlat ve Hata Yönetimi
+        const initAuth = async () => {
+            try {
+                await signInAnonymously(auth);
+                console.log("Firebase Bağlantısı Başarılı");
+                initListeners(); // Veri dinleyicilerini başlat
+            } catch (error) {
+                console.error("Firebase Bağlantı Hatası:", error);
+                
+                let errorMsg = "Bir hata oluştu: " + error.message;
+                
+                // Anonim giriş kapalıysa özel uyarı
+                if (error.code === 'auth/operation-not-allowed' || error.code === 'auth/admin-restricted-operation') {
+                    errorMsg = "HATA: Firebase Console'da 'Anonymous' (Anonim) giriş etkinleştirilmemiş.\n\n" + 
+                               "Lütfen Firebase Console -> Authentication -> Sign-in method kısmından 'Anonymous' seçeneğini açın.";
+                    
+                    // UI'da kullanıcıya göster
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = "fixed top-0 left-0 w-full bg-red-600 text-white p-4 text-center z-[100] font-bold";
+                    errorDiv.innerHTML = `⚠️ DİKKAT: Firebase "Anonymous" Girişi Kapalı! <br><span class="text-sm font-normal">Lütfen Firebase Console'dan Authentication > Sign-in method > Anonymous seçeneğini etkinleştirin.</span>`;
+                    document.body.prepend(errorDiv);
+                }
+                
+                // console'a da yaz
+                alert(errorMsg);
+            }
+        };
+
+        initAuth();
+
+        // --- VERİ DİNLEYİCİLERİ (Realtime) ---
+        function initListeners() {
+            // Kadro Dinle
+            const staffQ = query(collection(db, 'artifacts', appId, 'public', 'data', 'staff'), orderBy('createdAt', 'desc'));
+            onSnapshot(staffQ, (snapshot) => {
+                const staffList = snapshot.docs.map(d => ({id: d.id, ...d.data()}));
+                renderStaff(staffList);
+                renderAdminStaff(staffList);
+            }, (error) => {
+                handleSnapshotError(error, "Kadro");
+            });
+
+            // Blog Dinle
+            const blogQ = query(collection(db, 'artifacts', appId, 'public', 'data', 'blog'), orderBy('createdAt', 'desc'));
+            onSnapshot(blogQ, (snapshot) => {
+                const blogList = snapshot.docs.map(d => ({id: d.id, ...d.data()}));
+                renderBlog(blogList);
+                renderAdminBlog(blogList);
+            }, (error) => {
+                handleSnapshotError(error, "Blog");
+            });
+            
+            // Mesajları Dinle (Admin)
+            const msgQ = query(collection(db, 'artifacts', appId, 'public', 'data', 'messages'), orderBy('createdAt', 'desc'));
+            onSnapshot(msgQ, (snapshot) => {
+                const list = snapshot.docs.map(d => ({id: d.id, ...d.data()}));
+                renderAdminMessages(list);
+            }, (error) => {
+                handleSnapshotError(error, "Mesajlar");
+            });
+        }
+        
+        function handleSnapshotError(error, context) {
+            console.error(`Veri çekme hatası (${context}):`, error);
+            if (error.code === 'permission-denied') {
+                const banner = document.getElementById('permission-error-banner');
+                if (banner) banner.classList.remove('hidden');
+            }
+        }
+
+        // --- RENDER FONKSİYONLARI ---
+
+        // KADRO (Kurumsal Sayfa - Kategorize)
+        function renderStaff(list) {
+            const container = document.getElementById('staff-content');
+            document.getElementById('staff-loading').style.display = 'none';
+            container.innerHTML = ''; // Temizle
+
+            const categories = {
+                'kurucu': 'Kurucularımız',
+                'mudur': 'İdari Kadro',
+                'ogretmen': 'Öğretmenlerimiz',
+                'fizyoterapist': 'Fizyoterapistlerimiz',
+                'destek': 'Destek Personelimiz'
+            };
+
+            // Kategorilere göre grupla
+            for (const [key, title] of Object.entries(categories)) {
+                const group = list.filter(item => item.category === key);
+                
+                if (group.length > 0) {
+                    const sectionHtml = `
+                        <div class="mb-12">
+                            <h3 class="text-2xl font-bold text-slate-800 mb-6 border-l-4 border-blue-500 pl-4">${title}</h3>
+                            <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
+                                ${group.map(s => `
+                                    <div class="bg-white p-6 rounded-2xl shadow-sm text-center border border-slate-100 hover:shadow-lg transition group">
+                                        <div class="w-28 h-28 mx-auto bg-slate-100 rounded-full mb-5 overflow-hidden border-4 border-white shadow-sm">
+                                            <img src="${s.image || 'https://ui-avatars.com/api/?name=' + s.name + '&background=random'}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" loading="lazy">
+                                        </div>
+                                        <h3 class="font-bold text-slate-800 text-lg">${s.name}</h3>
+                                        <p class="text-blue-600 text-sm font-medium mt-1">${s.role}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += sectionHtml;
+                }
+            }
+            
+            const uncategorized = list.filter(item => !item.category);
+            if(uncategorized.length > 0) {
+                 container.innerHTML += `
+                    <div class="mb-12">
+                        <h3 class="text-2xl font-bold text-slate-800 mb-6 border-l-4 border-gray-500 pl-4">Diğer Personel</h3>
+                        <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
+                            ${uncategorized.map(s => `
+                                <div class="bg-white p-6 rounded-2xl shadow-sm text-center border border-slate-100 hover:shadow-lg transition group">
+                                    <div class="w-28 h-28 mx-auto bg-slate-100 rounded-full mb-5 overflow-hidden border-4 border-white shadow-sm">
+                                        <img src="${s.image || 'https://ui-avatars.com/api/?name=' + s.name + '&background=random'}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" loading="lazy">
+                                    </div>
+                                    <h3 class="font-bold text-slate-800 text-lg">${s.name}</h3>
+                                    <p class="text-blue-600 text-sm font-medium mt-1">${s.role}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // 2. Blog Listesi (Blog Sayfası)
+        function renderBlog(list) {
+            const container = document.getElementById('blog-grid');
+            document.getElementById('blog-loading').style.display = 'none';
+            
+            // Veriyi global erişim için sakla
+            window.blogData = list;
+
+            container.innerHTML = list.map(b => `
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition cursor-pointer flex flex-col h-full" onclick="openBlogDetail('${b.id}')">
+                    <div class="h-48 bg-gray-200 overflow-hidden relative">
+                        <img src="${b.image || 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=600&q=80'}" class="w-full h-full object-cover">
+                        <div class="absolute top-2 right-2 bg-white/90 px-2 py-1 rounded text-xs font-bold text-gray-600">
+                             ${b.date || 'Tarih Yok'}
+                        </div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="font-bold text-lg text-gray-800 mb-2 line-clamp-2 hover:text-blue-600">${b.title}</h3>
+                        <p class="text-gray-500 text-sm mb-4 line-clamp-3 flex-grow">${b.content}</p>
+                        <div class="flex items-center gap-2 text-xs text-blue-600 font-bold mt-auto">
+                            <span>Devamını Oku</span> <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        // 3. Admin Listeleri
+        function renderAdminStaff(list) {
+            const ul = document.getElementById('admin-staff-list');
+            ul.innerHTML = list.map(s => `
+                <li class="flex justify-between items-center bg-gray-50 p-2 rounded border border-gray-200">
+                    <div>
+                        <div class="font-bold text-sm text-gray-700">${s.name}</div>
+                        <div class="text-xs text-gray-500">${s.role}</div>
+                    </div>
+                    <button onclick="deleteItem('staff', '${s.id}')" class="text-red-500 hover:text-red-700 p-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                </li>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function renderAdminBlog(list) {
+            const ul = document.getElementById('admin-blog-list');
+            ul.innerHTML = list.map(b => `
+                <li class="flex justify-between items-center bg-gray-50 p-2 rounded border border-gray-200">
+                    <div class="w-3/4">
+                        <div class="font-bold text-sm text-gray-700 truncate">${b.title}</div>
+                        <div class="text-xs text-gray-500">${b.date} - ${b.author}</div>
+                    </div>
+                    <button onclick="deleteItem('blog', '${b.id}')" class="text-red-500 hover:text-red-700 p-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                </li>
+            `).join('');
+            lucide.createIcons();
+        }
+        
+        // ADMIN: MESAJLAR
+        function renderAdminMessages(list) {
+            const tbody = document.getElementById('admin-messages-list');
+            const emptyDiv = document.getElementById('messages-empty');
+            
+            if (list.length === 0) {
+                emptyDiv.classList.remove('hidden');
+                tbody.innerHTML = '';
+                return;
+            }
+            emptyDiv.classList.add('hidden');
+
+            tbody.innerHTML = list.map(msg => {
+                // Tarihi formatla
+                let dateStr = 'Tarih Yok';
+                if (msg.createdAt && msg.createdAt.seconds) {
+                    dateStr = new Date(msg.createdAt.seconds * 1000).toLocaleDateString('tr-TR', {day: 'numeric', month: 'long', hour: '2-digit', minute:'2-digit'});
+                }
+
+                return `
+                <tr class="hover:bg-slate-50 border-b border-slate-50 transition">
+                    <td class="p-3 font-medium text-slate-800">${msg.name}</td>
+                    <td class="p-3">${msg.phone}</td>
+                    <td class="p-3 max-w-xs truncate" title="${msg.message}">${msg.message}</td>
+                    <td class="p-3 text-xs text-slate-500">${dateStr}</td>
+                    <td class="p-3 text-right">
+                        <button onclick="deleteItem('messages', '${msg.id}')" class="text-red-500 hover:bg-red-50 p-1.5 rounded transition"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                    </td>
+                </tr>
+            `}).join('');
+            lucide.createIcons();
+        }
+
+        // --- ADMIN FONKSİYONLARI ---
+
+        window.addStaff = async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = 'Ekleniyor...'; btn.disabled = true;
+
+            const category = document.getElementById('staff-category').value;
+            const name = document.getElementById('staff-name').value;
+            const role = document.getElementById('staff-role').value;
+            const image = document.getElementById('staff-img').value;
+
+            try {
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'staff'), {
+                    category, name, role, image, createdAt: serverTimestamp()
+                });
+                e.target.reset();
+            } catch(err) { console.error(err); alert("Hata oluştu."); }
+            
+            btn.innerHTML = originalText; btn.disabled = false;
+        };
+
+        window.addBlog = async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = 'Yayınlanıyor...'; btn.disabled = true;
+
+            const title = document.getElementById('blog-title').value;
+            const author = document.getElementById('blog-author').value;
+            const content = document.getElementById('blog-content').value;
+            const image = document.getElementById('blog-img').value;
+            const date = new Date().toLocaleDateString('tr-TR');
+
+            try {
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'blog'), {
+                    title, author, content, image, date, createdAt: serverTimestamp()
+                });
+                e.target.reset();
+            } catch(err) { console.error(err); alert("Hata oluştu."); }
+            
+            btn.innerHTML = originalText; btn.disabled = false;
+        };
+
+        window.deleteItem = async (colName, id) => {
+            if(!confirm("Silmek istediğinize emin misiniz?")) return;
+            try {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', colName, id));
+            } catch(err) { console.error(err); alert("Silinemedi."); }
+        };
+
+        // --- NAVIGASYON VE DETAY SAYFASI ---
+
+        // Router Fonksiyonu
+        window.router = (pageId) => {
+            // Tüm sayfaları gizle
+            document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active-section'));
+            // İstenen sayfayı göster
+            document.getElementById('page-' + pageId).classList.add('active-section');
+            window.scrollTo(0,0);
+        };
+        
+        window.toggleMobileMenu = () => { document.getElementById('mobile-menu').classList.toggle('hidden'); };
+
+        // Blog Detayını Açma Fonksiyonu
+        window.openBlogDetail = (id) => {
+            const blog = window.blogData.find(b => b.id === id);
+            if (!blog) return;
+
+            // İçeriği Doldur
+            document.getElementById('detail-title').textContent = blog.title;
+            document.getElementById('detail-author').textContent = blog.author;
+            document.getElementById('detail-date').textContent = blog.date;
+            document.getElementById('detail-body').innerHTML = blog.content.replace(/\n/g, '<br>'); // Satır boşluklarını koru
+            
+            const imgEl = document.getElementById('detail-image');
+            if(blog.image) {
+                imgEl.src = blog.image;
+                imgEl.classList.remove('hidden');
+            } else {
+                imgEl.classList.add('hidden');
+            }
+
+            // Sayfayı Değiştir
+            router('blog-detail');
+        };
+
+        window.handleContact = async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = 'Gönderiliyor...'; btn.disabled = true;
+
+            const name = document.getElementById('contact-name').value;
+            const phone = document.getElementById('contact-phone').value;
+            const message = document.getElementById('contact-message').value;
+
+            try {
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'messages'), {
+                    name, phone, message, createdAt: serverTimestamp()
+                });
+                alert("Mesajınız başarıyla iletildi. En kısa sürede size dönüş yapacağız.");
+                e.target.reset();
+            } catch (err) {
+                console.error(err);
+                alert("Bir hata oluştu: " + err.message);
+            }
+            btn.innerHTML = originalText; btn.disabled = false;
+        };
+
+    </script>
+    <script>
+        // İkonları başlat (Vanilla JS kısmı için)
+        lucide.createIcons();
+    </script>
+</body>
+</html>
