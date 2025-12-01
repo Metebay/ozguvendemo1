@@ -154,7 +154,7 @@ const initStaff = () => {
                             ${grp.map(s => `
                                 <div class="bg-white p-6 rounded-2xl shadow-sm text-center border border-slate-100 hover:shadow-xl transition group">
                                     <div class="w-32 h-32 mx-auto bg-slate-100 rounded-full mb-6 overflow-hidden border-4 border-white shadow-md">
-                                        <img src="${s.image || 'https://ui-avatars.com/api/?name='+s.name+'&background=random'}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                                        <img src="${s.image || 'https://ui-avatars.com/api/?name='+s.name+'&background=random'}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" loading="lazy">
                                     </div>
                                     <h4 class="font-bold text-lg text-slate-800">${s.name}</h4>
                                     <p class="text-blue-600 font-medium text-sm mt-1">${s.role}</p>
@@ -202,7 +202,7 @@ const initBlog = () => {
             blogGrid.innerHTML = list.map(b => `
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-xl transition cursor-pointer flex flex-col h-full group" onclick="localStorage.setItem('currentBlog', JSON.stringify({id:'${b.id}', title:'${b.title}', content:'${b.content.replace(/'/g, "\\'")}', author:'${b.author}', date:'${b.date}', image:'${b.image}'})); window.location.href='blog-detay.html'">
                     <div class="h-56 bg-slate-200 overflow-hidden relative">
-                        <img src="${b.image || 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=600&q=80'}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <img src="${b.image || 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=600&q=80'}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy">
                         <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-slate-600 shadow-sm">
                              ${b.date}
                         </div>
