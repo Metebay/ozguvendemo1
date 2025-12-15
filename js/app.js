@@ -113,7 +113,7 @@ const renderLayout = () => {
             <div class="container mx-auto px-4 py-4 flex justify-between items-center">
                 <!-- LOGO ALANI -->
                 <a href="index.html" class="flex items-center gap-3 group">
-                    <img src="özgüvenweb.png" alt="Özgüven Logo" class="h-16 w-auto object-contain group-hover:scale-105 transition-transform duration-300">
+                    <img src="özgüvenweb.jpg" alt="Özgüven Logo" class="h-16 w-auto object-contain group-hover:scale-105 transition-transform duration-300">
                 </a>
 
                 <!-- MENÜ LİNKLERİ (Desktop) -->
@@ -154,16 +154,16 @@ const renderLayout = () => {
         
         <!-- MOBİL MENÜ İÇERİĞİ -->
         <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-stone-100 absolute w-full left-0 shadow-2xl p-0 flex flex-col z-40 animate-in slide-in-from-top-2 duration-200">
-            <a href="index.html" class="p-4 border-b border-stone-50 font-bold text-[#3d2715] hover:bg-orange-50 hover:text-orange-700 hover:pl-6 transition-all uppercase text-xs flex justify-between group">
+            <a href="index.html" class="p-5 border-b border-stone-50 font-semibold text-sm text-[#3d2715] hover:bg-orange-50 hover:text-orange-700 hover:pl-6 transition-all uppercase flex justify-between group">
                 Ana Sayfa <i data-lucide="chevron-right" class="w-4 h-4 text-[#3d2715]/40 group-hover:text-orange-500"></i>
             </a>
-            <a href="kurumsal.html" class="p-4 border-b border-stone-50 font-bold text-[#3d2715] hover:bg-orange-50 hover:text-orange-700 hover:pl-6 transition-all uppercase text-xs flex justify-between group">
+            <a href="kurumsal.html" class="p-5 border-b border-stone-50 font-semibold text-sm text-[#3d2715] hover:bg-orange-50 hover:text-orange-700 hover:pl-6 transition-all uppercase flex justify-between group">
                 Kurumsal <i data-lucide="chevron-right" class="w-4 h-4 text-[#3d2715]/40 group-hover:text-orange-500"></i>
             </a>
-            <a href="blog.html" class="p-4 border-b border-stone-50 font-bold text-[#3d2715] hover:bg-orange-50 hover:text-orange-700 hover:pl-6 transition-all uppercase text-xs flex justify-between group">
+            <a href="blog.html" class="p-5 border-b border-stone-50 font-semibold text-sm text-[#3d2715] hover:bg-orange-50 hover:text-orange-700 hover:pl-6 transition-all uppercase flex justify-between group">
                 Blog <i data-lucide="chevron-right" class="w-4 h-4 text-[#3d2715]/40 group-hover:text-orange-500"></i>
             </a>
-            <a href="iletisim.html" class="p-4 border-b border-stone-50 font-bold text-[#3d2715] hover:bg-orange-50 hover:text-orange-700 hover:pl-6 transition-all uppercase text-xs flex justify-between group">
+            <a href="iletisim.html" class="p-5 border-b border-stone-50 font-semibold text-sm text-[#3d2715] hover:bg-orange-50 hover:text-orange-700 hover:pl-6 transition-all uppercase flex justify-between group">
                 İletişim <i data-lucide="chevron-right" class="w-4 h-4 text-[#3d2715]/40 group-hover:text-orange-500"></i>
             </a>
         </div>
@@ -186,7 +186,7 @@ const renderLayout = () => {
                     <!-- Sütun 1: Kurumsal -->
                     <div class="md:col-span-1">
                         <div class="mb-6 bg-white p-2 rounded-lg w-fit">
-                            <img src="özgüvenweb.png" alt="Özgüven Logo" class="h-12 w-auto object-contain">
+                            <img src="özgüvenweb.jpg" alt="Özgüven Logo" class="h-12 w-auto object-contain">
                         </div>
                         <p class="text-sm leading-7 mb-8 text-orange-100/60">
                             Özel eğitimde güvenin adresi. Bilimsel metotlar, uzman kadro ve sevgi dolu bir yaklaşımla, her bireyin potansiyelini en üst düzeye çıkarıyoruz.
@@ -256,7 +256,7 @@ const renderLayout = () => {
                     <div class="flex flex-col md:flex-row items-center gap-1 md:gap-4 text-center md:text-left">
                         <p>&copy; 2025 Özgüven Özel Eğitim.</p>
                         <span class="hidden md:block text-orange-900">•</span>
-                        <a href="https://bayindirmedya.com.tr" target="_blank" rel="nofollow" class="hover:text-white transition-colors font-semibold tracking-wide flex items-center gap-1">
+                        <a href="https://bayindirmedya.com" target="_blank" rel="nofollow" class="hover:text-white transition-colors font-semibold tracking-wide flex items-center gap-1">
                            Design by BAYINDIR MEDYA
                         </a>
                     </div>
