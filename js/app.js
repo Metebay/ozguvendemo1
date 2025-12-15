@@ -113,14 +113,7 @@ const renderLayout = () => {
             <div class="container mx-auto px-4 py-4 flex justify-between items-center">
                 <!-- LOGO ALANI -->
                 <a href="index.html" class="flex items-center gap-3 group">
-                    <div class="relative">
-                        <div class="absolute inset-0 bg-orange-600/20 blur-md rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                        <div class="relative w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center text-white font-bold text-2xl shadow-lg border border-orange-500/50 group-hover:scale-105 transition-transform duration-300">Ö</div>
-                    </div>
-                    <div class="flex flex-col">
-                        <h1 class="text-2xl font-black text-[#3d2715] leading-none tracking-tight uppercase group-hover:text-orange-700 transition-colors">Özgüven</h1>
-                        <p class="text-[10px] text-orange-600 font-bold tracking-[0.25em] uppercase mt-1.5 opacity-80">Özel Eğitim Merkezi</p>
-                    </div>
+                    <img src="özgüvenweb.jpg" alt="Özgüven Logo" class="h-16 w-auto object-contain group-hover:scale-105 transition-transform duration-300">
                 </a>
 
                 <!-- MENÜ LİNKLERİ (Desktop) -->
@@ -192,9 +185,8 @@ const renderLayout = () => {
                     
                     <!-- Sütun 1: Kurumsal -->
                     <div class="md:col-span-1">
-                        <div class="flex items-center gap-3 mb-6">
-                            <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg border border-orange-500/30">Ö</div>
-                            <h3 class="text-xl font-bold text-white uppercase tracking-wider">Özgüven</h3>
+                        <div class="mb-6 bg-white p-2 rounded-lg w-fit">
+                            <img src="özgüvenweb.jpg" alt="Özgüven Logo" class="h-12 w-auto object-contain">
                         </div>
                         <p class="text-sm leading-7 mb-8 text-orange-100/60">
                             Özel eğitimde güvenin adresi. Bilimsel metotlar, uzman kadro ve sevgi dolu bir yaklaşımla, her bireyin potansiyelini en üst düzeye çıkarıyoruz.
