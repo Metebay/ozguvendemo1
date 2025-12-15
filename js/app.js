@@ -256,7 +256,7 @@ const renderLayout = () => {
                     <div class="flex flex-col md:flex-row items-center gap-1 md:gap-4 text-center md:text-left">
                         <p>&copy; 2025 Özgüven Özel Eğitim.</p>
                         <span class="hidden md:block text-orange-900">•</span>
-                        <a href="https://bayindirmedya.com" target="_blank" rel="nofollow" class="hover:text-white transition-colors font-semibold tracking-wide flex items-center gap-1">
+                        <a href="https://bayindirmedya.com.tr" target="_blank" rel="nofollow" class="hover:text-white transition-colors font-semibold tracking-wide flex items-center gap-1">
                            Design by BAYINDIR MEDYA
                         </a>
                     </div>
