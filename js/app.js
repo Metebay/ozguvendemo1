@@ -113,7 +113,7 @@ const renderLayout = () => {
             <div class="container mx-auto px-4 py-4 flex justify-between items-center">
                 <!-- LOGO ALANI -->
                 <a href="index.html" class="flex items-center gap-3 group">
-                    <img src="özgüvenweb.png" alt="Özgüven Logo" class="h-16 w-auto object-contain group-hover:scale-105 transition-transform duration-300">
+                    <img src="özgüvenweb.jpg" alt="Özgüven Logo" class="h-16 w-auto object-contain group-hover:scale-105 transition-transform duration-300">
                 </a>
 
                 <!-- MENÜ LİNKLERİ (Desktop) -->
@@ -186,7 +186,7 @@ const renderLayout = () => {
                     <!-- Sütun 1: Kurumsal -->
                     <div class="md:col-span-1">
                         <div class="mb-6 bg-white p-2 rounded-lg w-fit">
-                            <img src="özgüvenweb.png" alt="Özgüven Logo" class="h-12 w-auto object-contain">
+                            <img src="özgüvenweb.jpg" alt="Özgüven Logo" class="h-12 w-auto object-contain">
                         </div>
                         <p class="text-sm leading-7 mb-8 text-orange-100/60">
                             Özel eğitimde güvenin adresi. Bilimsel metotlar, uzman kadro ve sevgi dolu bir yaklaşımla, her bireyin potansiyelini en üst düzeye çıkarıyoruz.
@@ -252,11 +252,17 @@ const renderLayout = () => {
                     </div>
                 </div>
                 
-                <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-orange-100/60 pt-4">
-                    <p>&copy; 2025 Özgüven Özel Eğitim ve Rehabilitasyon Merkezi.</p>
+                <div class="border-t border-orange-900/30 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-orange-100/60">
+                    <div class="flex flex-col md:flex-row items-center gap-1 md:gap-4 text-center md:text-left">
+                        <p>&copy; 2025 Özgüven Özel Eğitim.</p>
+                        <span class="hidden md:block text-orange-900">•</span>
+                        <a href="#" target="_blank" rel="nofollow" class="hover:text-white transition-colors font-semibold tracking-wide flex items-center gap-1">
+                           Design by BAYINDIR MEDYA
+                        </a>
+                    </div>
                     <div class="flex gap-6">
-                        <a href="#" class="hover:text-white transition underline-offset-4 hover:underline">Gizlilik Politikası</a>
-                        <a href="#" class="hover:text-white transition underline-offset-4 hover:underline">Kullanım Şartları</a>
+                        <a href="gizlilik-politikasi.html" class="hover:text-white transition underline-offset-4 hover:underline">Gizlilik Politikası</a>
+                        <a href="kullanim-sartlari.html" class="hover:text-white transition underline-offset-4 hover:underline">Kullanım Şartları</a>
                     </div>
                 </div>
             </div>
