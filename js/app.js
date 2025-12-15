@@ -113,7 +113,7 @@ const renderLayout = () => {
             <div class="container mx-auto px-4 py-4 flex justify-between items-center">
                 <!-- LOGO ALANI -->
                 <a href="index.html" class="flex items-center gap-3 group">
-                    <img src="özgüvenweb.jpg" alt="Özgüven Logo" class="h-16 w-auto object-contain group-hover:scale-105 transition-transform duration-300">
+                    <img src="özgüvenweb.png" alt="Özgüven Logo" class="h-16 w-auto object-contain group-hover:scale-105 transition-transform duration-300">
                 </a>
 
                 <!-- MENÜ LİNKLERİ (Desktop) -->
@@ -186,7 +186,7 @@ const renderLayout = () => {
                     <!-- Sütun 1: Kurumsal -->
                     <div class="md:col-span-1">
                         <div class="mb-6 bg-white p-2 rounded-lg w-fit">
-                            <img src="özgüvenweb.jpg" alt="Özgüven Logo" class="h-12 w-auto object-contain">
+                            <img src="özgüvenweb.png" alt="Özgüven Logo" class="h-12 w-auto object-contain">
                         </div>
                         <p class="text-sm leading-7 mb-8 text-orange-100/60">
                             Özel eğitimde güvenin adresi. Bilimsel metotlar, uzman kadro ve sevgi dolu bir yaklaşımla, her bireyin potansiyelini en üst düzeye çıkarıyoruz.
